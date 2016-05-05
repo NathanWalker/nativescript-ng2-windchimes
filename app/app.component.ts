@@ -1,6 +1,6 @@
 var sound = require('nativescript-sound');
 import {Color} from 'color';
-import {Component, OnInit, ViewChild, ElementRef} from "angular2/core";
+import {Component, AfterViewInit, ViewChild, ElementRef} from "angular2/core";
 import {Image} from "ui/image";
 import {Label} from "ui/label";
 import {AbsoluteLayout} from 'ui/layouts/absolute-layout';
@@ -19,25 +19,44 @@ interface IRings {
     template: `
     <ActionBar title="Windchimes">
     </ActionBar>
-    <AbsoluteLayout id="windchimes" width="100%" height="100%" (tap)="play($event)" (touch)="touch($event)">
-        <GridLayout rows="auto, auto, auto" columns="auto, *, auto, *">
+    <AbsoluteLayout #windchimes width="100%" height="100%" (tap)="play($event)" (touch)="touch($event)">
+        <!--<GridLayout rows="auto, auto, auto" columns="auto, *, auto, *">
             <Label text="X Coordinate: " row="0" col="0" class="white" textWrap="true"></Label>
             <Label [text]="xCoord" row="0" col="1" class="blue" textWrap="true"></Label>
             <Label text="Y Coordinate: " row="1" col="0" class="white" textWrap="true"></Label>
             <Label [text]="yCoord" row="1" col="1" class="blue" textWrap="true"></Label>
             <Label text="Chime: " row="2" col="0" class="white" textWrap="true"></Label>
             <Label [text]="chime" row="2" col="1" class="blue" textWrap="true"></Label>
-        </GridLayout>
+        </GridLayout>-->
 
         <Image id="circle" src="~/images/circle.png" stretch="aspectFit" height="0"></Image>
     </AbsoluteLayout>
     `
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements AfterViewInit {
+    @ViewChild('windchimes') windchimes: ElementRef;
     public chime: any;
     public xCoord: any;
     public yCoord: any;
     private layout: AbsoluteLayout;
+
+    constructor() {
+        if (app.android) {
+            // Change statusbar color on Lollipop
+            if (platform.device.sdkVersion >= "21") {
+                var window = app.android.startActivity.getWindow();
+                window.setStatusBarColor(new Color("#000").android);
+            }
+        }
+
+               
+        if (topmost().ios) {
+            let navigationBar = topmost().ios.controller.navigationBar;
+            // 0: default
+            // 1: light
+            navigationBar.barStyle = 1;
+        }
+    }
 
     private sounds: any = {
         "C4": sound.create("~/sounds/n_C4.mp3"),
@@ -57,17 +76,6 @@ export class AppComponent implements OnInit {
         { name: 'D5', color: new Color("#7FC7AF") },
         { name: 'E5', color: new Color("#3FB8AF") }
     ];
-
-    constructor() {
-        if (app.android) {
-            // Change statusbar color on Lollipop
-            if (platform.device.sdkVersion >= "21") {
-                var window = app.android.startActivity.getWindow();
-                window.setStatusBarColor(new Color("#000").android);
-            }
-        }
-
-    }
 
     public touch(e: any) {
         console.log(`touch`);
@@ -113,8 +121,8 @@ export class AppComponent implements OnInit {
         });
     }
 
-    ngOnInit() {
+    ngAfterViewInit() {
         //I probably should have done this with @ViewChild...
-        this.layout = <AbsoluteLayout>topmost().currentPage.getViewById('windchimes');
+        this.layout = this.windchimes.nativeElement;// <AbsoluteLayout>topmost().currentPage.getViewById('windchimes');
     }
 }
