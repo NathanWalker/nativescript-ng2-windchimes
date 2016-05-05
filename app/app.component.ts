@@ -61,6 +61,11 @@ export class AppComponent implements OnInit {
     public touch(e: any) {
         console.log(`touch`);
         console.log(e);
+        if (e && e.action === 'down') {
+            this.xCoord = e.getX();
+            this.yCoord = e.getY();
+            console.log(`x: ${this.xCoord} / y: ${this.yCoord}`);
+        }
     }
 
     public play(e: any) {
