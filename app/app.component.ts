@@ -1,33 +1,43 @@
 var sound = require('nativescript-sound');
 import {Color} from 'color';
-import {Component, OnInit} from "angular2/core";
+import {Component, OnInit, ViewChild, ElementRef} from "angular2/core";
+import {Image} from "ui/image";
+import {Label} from "ui/label";
+import {AbsoluteLayout} from 'ui/layouts/absolute-layout';
 import {topmost} from 'ui/frame';
 import * as app from 'application';
 import * as platform from 'platform';
+import * as imageSource from 'image-source';
+
+interface IRings {
+    name: string;
+    color: Color;
+}
 
 @Component({
     selector: "my-app",
     template: `
     <ActionBar title="Windchimes">
     </ActionBar>
-    <StackLayout (tap)="play($event)" (touch)="touch($event)">        
+    <AbsoluteLayout id="windchimes" width="100%" height="100%" (tap)="play($event)" (touch)="touch($event)">
         <GridLayout rows="auto, auto, auto" columns="auto, *, auto, *">
             <Label text="X Coordinate: " row="0" col="0" class="white" textWrap="true"></Label>
             <Label [text]="xCoord" row="0" col="1" class="blue" textWrap="true"></Label>
             <Label text="Y Coordinate: " row="1" col="0" class="white" textWrap="true"></Label>
-            <Label [text]="yCoord" row="1" col="1" class="blue" textWrap="true"></Label>   
+            <Label [text]="yCoord" row="1" col="1" class="blue" textWrap="true"></Label>
             <Label text="Chime: " row="2" col="0" class="white" textWrap="true"></Label>
-            <Label [text]="chime" row="2" col="1" class="blue" textWrap="true"></Label>         
-        </GridLayout>   
+            <Label [text]="chime" row="2" col="1" class="blue" textWrap="true"></Label>
+        </GridLayout>
 
         <Image id="circle" src="~/images/circle.png" stretch="aspectFit" height="0"></Image>
-    </StackLayout>
-`,
+    </AbsoluteLayout>
+    `
 })
 export class AppComponent implements OnInit {
     public chime: any;
     public xCoord: any;
     public yCoord: any;
+    private layout: AbsoluteLayout;
 
     private sounds: any = {
         "C4": sound.create("~/sounds/n_C4.mp3"),
@@ -40,7 +50,7 @@ export class AppComponent implements OnInit {
     };
 
     // Array of sound names and their colors
-    private rings: any = [
+    private rings: IRings[] = [
         { name: 'C4', color: new Color("#FF3D7F") },
         { name: 'C5', color: new Color("#FF9E9D") },
         { name: 'D4', color: new Color("#DAD8A7") },
@@ -56,6 +66,7 @@ export class AppComponent implements OnInit {
                 window.setStatusBarColor(new Color("#000").android);
             }
         }
+
     }
 
     public touch(e: any) {
@@ -68,27 +79,42 @@ export class AppComponent implements OnInit {
         }
     }
 
+    private createCirle(layout: AbsoluteLayout, x: number, y: number) {
+        let circle = new Label;
+        circle.height = 200;
+        circle.width = 200;
+        circle.borderRadius = 100;
+        layout.addChild(circle);
+        y = y - 100;
+        x = x - 100;
+        AbsoluteLayout.setTop(circle, y);
+        AbsoluteLayout.setLeft(circle, x);
+
+        return circle;
+    }
     public play(e: any) {
         let randomChime = this.rings[Math.floor(Math.random() * this.rings.length)];
         this.sounds[randomChime.name].play();
         this.chime = randomChime.name;
 
-        let circle = topmost().currentPage.getViewById('circle');
+        let circle = this.createCirle(this.layout, this.xCoord, this.yCoord);
         this.animateCircle(circle, randomChime.color);
     }
 
-    private animateCircle(circle: any, ringColor: any) {
+    private animateCircle(circle: Label, ringColor: Color) {
         circle.animate({
-            scale: { x: 50, y: 50 },
+            scale: { x: 20, y: 20 },
             backgroundColor: ringColor,
             opacity: 0.1,
             duration: 3700
         }).then(() => {
-            circle.visible = 'collapse';
-        })
+            this.layout.removeChild(circle);
+            // circle.visible = 'collapse';
+        });
     }
 
     ngOnInit() {
-
+        //I probably should have done this with @ViewChild...
+        this.layout = <AbsoluteLayout>topmost().currentPage.getViewById('windchimes');
     }
 }

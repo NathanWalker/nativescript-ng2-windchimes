@@ -1,5 +1,5 @@
 ﻿button, label, stack-layout {
-    horizontal-align: center;    
+    horizontal-align: center;
 }
 
 button {
@@ -16,7 +16,7 @@ button {
     color: #284848;
     text-align: center;
     margin: 0 20;
-} 
+}
 
 actionbar {
     background-color: #000;
@@ -28,4 +28,7 @@ actionbar {
 }
 .blue {
     color:#3489db;
+}
+AbsoluteLayout{
+    background-color: #000;
 }
