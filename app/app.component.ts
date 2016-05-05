@@ -1,4 +1,4 @@
-var sound = require('nativescript-sound');
+let sound = require('nativescript-sound');
 import {Color} from 'color';
 import {Component, OnInit, ViewChild, ElementRef} from "angular2/core";
 import {Image} from "ui/image";
@@ -8,6 +8,7 @@ import {topmost} from 'ui/frame';
 import * as app from 'application';
 import * as platform from 'platform';
 import * as imageSource from 'image-source';
+import * as animationsModule from 'ui/animation';
 
 interface IRings {
     name: string;
@@ -79,37 +80,59 @@ export class AppComponent implements OnInit {
         }
     }
 
-    private createCirle(layout: AbsoluteLayout, x: number, y: number) {
+    private createCirle(layout: AbsoluteLayout, x: number, y: number, ringColor: Color) {
         let circle = new Label;
+        let hole = new Label;
         circle.height = 200;
         circle.width = 200;
         circle.borderRadius = 100;
+        circle.backgroundColor = ringColor,
+
+            hole.height = 40;
+        hole.width = 40;
+        hole.borderRadius = 20;
+        hole.backgroundColor = new Color('#000');
+        hole.opacity = 0.75;
         layout.addChild(circle);
+        layout.addChild(hole);
         y = y - 100;
         x = x - 100;
         AbsoluteLayout.setTop(circle, y);
         AbsoluteLayout.setLeft(circle, x);
+        AbsoluteLayout.setTop(hole, y + 80);
+        AbsoluteLayout.setLeft(hole, x + 80);
 
-        return circle;
+        this.animateCircle(circle, hole, ringColor);
     }
     public play(e: any) {
         let randomChime = this.rings[Math.floor(Math.random() * this.rings.length)];
         this.sounds[randomChime.name].play();
         this.chime = randomChime.name;
 
-        let circle = this.createCirle(this.layout, this.xCoord, this.yCoord);
-        this.animateCircle(circle, randomChime.color);
+        this.createCirle(this.layout, this.xCoord, this.yCoord, randomChime.color);
     }
 
-    private animateCircle(circle: Label, ringColor: Color) {
-        circle.animate({
+    private animateCircle(circle: Label, hole: Label, ringColor: Color) {
+        let definitions = new Array();
+        definitions.push({
+            target: circle,
             scale: { x: 20, y: 20 },
-            backgroundColor: ringColor,
             opacity: 0.1,
             duration: 3700
+        });
+        definitions.push({
+            target: hole,
+            scale: { x: 20, y: 20 },
+            opacity: 0.1,
+            duration: 3700
+        });
+
+        let animationSet = new animationsModule.Animation(definitions, false);
+        animationSet.play().then(function () {
+            console.log("Animation finished");
         }).then(() => {
+            this.layout.removeChild(hole);
             this.layout.removeChild(circle);
-            // circle.visible = 'collapse';
         });
     }
 
