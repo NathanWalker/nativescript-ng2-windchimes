@@ -1,0 +1,49 @@
+{
+  "nativescript": {
+    "id": "org.nativescript.helloworldng"
+  },
+  "name": "tns-template-hello-world-ng",
+  "main": "main.js",
+  "version": "2.0.2",
+  "author": {
+    "name": "Telerik",
+    "email": "support@telerik.com"
+  },
+  "description": "Nativescript Angular Hello World template",
+  "license": "BSD",
+  "keywords": [
+    "telerik",
+    "mobile",
+    "angular",
+    "nativescript",
+    "{N}",
+    "tns",
+    "appbuilder",
+    "template"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/NativeScript/template-hello-world-ng.git"
+  },
+  "homepage": "https://github.com/NativeScript/template-hello-world-ng",
+  "android": {
+    "v8Flags": "--expose_gc"
+  },
+  "dependencies": {
+    "angular2": "2.0.0-beta.16",
+    "nativescript-angular": "0.0.46",
+    "tns-core-modules": "^2.0.0 || 2.0.0-angular-6"
+  },
+  "devDependencies": {
+    "nativescript-dev-typescript": "^0.3.2"
+  },
+  "gitHead": "e8c1333fd0081d7747a9e447f02c7974a16f854c",
+  "bugs": {
+    "url": "https://github.com/NativeScript/template-hello-world-ng/issues"
+  },
+  "readme": "ERROR: No README data found!",
+  "_id": "tns-template-hello-world-ng@2.0.2",
+  "_shasum": "21a16d7528d09c7bfdab4817f78c0ed47f583bf0",
+  "_from": "git+https://github.com/NativeScript/template-hello-world-ng.git",
+  "_resolved": "git+https://github.com/NativeScript/template-hello-world-ng.git#e8c1333fd0081d7747a9e447f02c7974a16f854c"
+}
