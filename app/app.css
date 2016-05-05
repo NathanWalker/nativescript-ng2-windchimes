@@ -17,3 +17,15 @@ button {
     text-align: center;
     margin: 0 20;
 } 
+
+actionbar {
+    background-color: #000;
+    color:#fff;
+}
+
+.white {
+    color:#fff;
+}
+.blue {
+    color:#3489db;
+}
