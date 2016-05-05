@@ -1,4 +1,5 @@
 let sound = require('nativescript-sound');
+let explosion = require("nativescript-explosionfield");
 import {Color} from 'color';
 import {Component, AfterViewInit, ViewChild, ElementRef} from "angular2/core";
 import {Image} from "ui/image";
@@ -29,8 +30,6 @@ interface IRings {
             <Label text="Chime: " row="2" col="0" class="white" textWrap="true"></Label>
             <Label [text]="chime" row="2" col="1" class="blue" textWrap="true"></Label>
         </GridLayout>-->
-
-        <Image id="circle" src="~/images/circle.png" stretch="aspectFit" height="0"></Image>
     </AbsoluteLayout>
     `
 })
@@ -50,7 +49,7 @@ export class AppComponent implements AfterViewInit {
             }
         }
 
-               
+
         if (topmost().ios) {
             let navigationBar = topmost().ios.controller.navigationBar;
             // 0: default
@@ -91,27 +90,48 @@ export class AppComponent implements AfterViewInit {
     private createCirle(layout: AbsoluteLayout, x: number, y: number, ringColor: Color) {
         let circle = new Label;
         let hole = new Label;
+        let bomb;
+
         circle.height = 200;
         circle.width = 200;
         circle.borderRadius = 100;
-        circle.backgroundColor = ringColor,
+        circle.backgroundColor = ringColor;
 
-            hole.height = 40;
+        hole.height = 40;
         hole.width = 40;
         hole.borderRadius = 20;
         hole.backgroundColor = new Color('#000');
         hole.opacity = 0.75;
+
         layout.addChild(circle);
         layout.addChild(hole);
+
         y = y - 100;
         x = x - 100;
         AbsoluteLayout.setTop(circle, y);
         AbsoluteLayout.setLeft(circle, x);
+
         AbsoluteLayout.setTop(hole, y + 80);
         AbsoluteLayout.setLeft(hole, x + 80);
 
-        this.animateCircle(circle, hole, ringColor);
+        // Create the bomb only on Android        
+        if (app.android) {
+            bomb = new Label;
+
+            bomb.height = 5;
+            bomb.width = 5;
+            bomb.borderRadius = 2.5;
+            bomb.backgroundColor = new Color("#fff");
+
+            layout.addChild(bomb);
+
+            AbsoluteLayout.setTop(bomb, y + 98);
+            AbsoluteLayout.setLeft(bomb, x + 98);
+        }
+
+        this.animateCircle(circle, hole, bomb, ringColor);
     }
+
     public play(e: any) {
         let randomChime = this.rings[Math.floor(Math.random() * this.rings.length)];
         this.sounds[randomChime.name].play();
@@ -120,7 +140,16 @@ export class AppComponent implements AfterViewInit {
         this.createCirle(this.layout, this.xCoord, this.yCoord, randomChime.color);
     }
 
-    private animateCircle(circle: Label, hole: Label, ringColor: Color) {
+    private animateCircle(circle: Label, hole: Label, bomb: Label, ringColor: Color) {
+
+        // Explode only on Android        
+        if (app.android) {
+            setTimeout(function () {
+                explosion.explode(bomb);
+            });
+        }
+
+        
         let definitions = new Array();
         definitions.push({
             target: circle,
@@ -136,9 +165,11 @@ export class AppComponent implements AfterViewInit {
         });
 
         let animationSet = new animationsModule.Animation(definitions, false);
+
         animationSet.play().then(function () {
             console.log("Animation finished");
         }).then(() => {
+            this.layout.removeChild(bomb);
             this.layout.removeChild(hole);
             this.layout.removeChild(circle);
         });
