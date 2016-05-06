@@ -41,7 +41,6 @@ export class AppComponent implements AfterViewInit {
     public xCoord: any;
     public yCoord: any;
     private layout: AbsoluteLayout;
-    private drag: boolean = false;
 
     constructor() {
         if (app.android) {
@@ -85,11 +84,9 @@ export class AppComponent implements AfterViewInit {
         console.log(e);
         this.xCoord = e.getX();
         this.yCoord = e.getY();
-        if (e && e.action === 'down' && this.drag === false) {
+        if (e && e.action === 'down' ) {
             this.playChime();
             console.log(`x: ${this.xCoord} / y: ${this.yCoord}`);
-        } else if (e && e.action === 'up') {
-            this.drag = false;
         }
     }
 
@@ -184,18 +181,5 @@ export class AppComponent implements AfterViewInit {
 
     ngAfterViewInit() {
         this.layout = <AbsoluteLayout>this.windchimes.nativeElement;
-        this.layout.on('pan', (args: GestureEventData) => {
-            let panData = <PanGestureEventData>args;
-            let touchData = <TouchGestureEventData>args;
-            if (touchData.getX != null)
-                this.xCoord = touchData.getX;
-            if (touchData.getY != null)
-                this.yCoord = touchData.getY;
-
-            if (((Math.floor(panData.deltaX) % 80) === 0 && panData.deltaY > 0) || ((Math.floor(panData.deltaY) % 80) === 0) && panData.deltaY > 0) {
-                this.drag = true;
-                this.playChime();
-            }
-        });
     }
 }
