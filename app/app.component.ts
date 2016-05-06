@@ -22,6 +22,7 @@ interface IRings {
     <ActionBar title="Wind Chimes">
     </ActionBar>
     <AbsoluteLayout #windchimes width="100%" height="100%" (tap)="play($event)" (touch)="touch($event)">
+        <!-- DEBUG: uncomment below -->
         <!--<GridLayout rows="auto, auto, auto" columns="auto, *, auto, *">
             <Label text="X Coordinate: " row="0" col="0" class="white" textWrap="true"></Label>
             <Label [text]="xCoord" row="0" col="1" class="blue" textWrap="true"></Label>
@@ -176,7 +177,6 @@ export class AppComponent implements AfterViewInit {
     }
 
     ngAfterViewInit() {
-        //I probably should have done this with @ViewChild...
-        this.layout = this.windchimes.nativeElement;// <AbsoluteLayout>topmost().currentPage.getViewById('windchimes');
+        this.layout = <AbsoluteLayout>this.windchimes.nativeElement;
     }
 }
