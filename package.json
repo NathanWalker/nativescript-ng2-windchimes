@@ -24,6 +24,7 @@
 		"@angular/router-deprecated": "2.0.0-rc.1",
 		"nativescript-angular": "0.1.1",
 		"nativescript-sound": "^1.0.4",
+		"nativescript-explosionfield": "^1.0.1",
 		"tns-core-modules": "^2.0.0 || 2.0.0-angular-6"
 	},
 	"devDependencies": {
