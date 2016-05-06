@@ -10,6 +10,7 @@ import * as app from 'application';
 import * as platform from 'platform';
 import * as imageSource from 'image-source';
 import * as animationsModule from 'ui/animation';
+import { PanGestureEventData, GestureTypes, GestureEventData, TouchGestureEventData } from 'ui/gestures';
 
 interface IRings {
     name: string;
@@ -21,7 +22,7 @@ interface IRings {
     template: `
     <ActionBar title="Wind Chimes">
     </ActionBar>
-    <AbsoluteLayout #windchimes width="100%" height="100%" (tap)="play($event)" (touch)="touch($event)">
+    <AbsoluteLayout #windchimes width="100%" height="100%"  (touch)="touch($event)">
         <!-- DEBUG: uncomment below -->
         <!--<GridLayout rows="auto, auto, auto" columns="auto, *, auto, *">
             <Label text="X Coordinate: " row="0" col="0" class="white" textWrap="true"></Label>
@@ -78,12 +79,13 @@ export class AppComponent implements AfterViewInit {
         { name: 'E5', color: new Color("#3FB8AF") }
     ];
 
-    public touch(e: any) {
+    public touch(e: TouchGestureEventData) {
         console.log(`touch`);
         console.log(e);
         if (e && e.action === 'down') {
             this.xCoord = e.getX();
             this.yCoord = e.getY();
+            this.playChime();
             console.log(`x: ${this.xCoord} / y: ${this.yCoord}`);
         }
     }
@@ -115,7 +117,7 @@ export class AppComponent implements AfterViewInit {
         AbsoluteLayout.setTop(hole, y + 80);
         AbsoluteLayout.setLeft(hole, x + 80);
 
-        // Create the bomb only on Android        
+        // Create the bomb only on Android
         if (app.android) {
             bomb = new Label;
 
@@ -133,24 +135,23 @@ export class AppComponent implements AfterViewInit {
         this.animateCircle(circle, hole, bomb, ringColor);
     }
 
-    public play(e: any) {
+    playChime() {
         let randomChime = this.rings[Math.floor(Math.random() * this.rings.length)];
         this.sounds[randomChime.name].play();
         this.chime = randomChime.name;
 
         this.createCirle(this.layout, this.xCoord, this.yCoord, randomChime.color);
     }
-
     private animateCircle(circle: Label, hole: Label, bomb: Label, ringColor: Color) {
 
-        // Explode only on Android        
+        // Explode only on Android
         if (app.android) {
             setTimeout(function () {
                 explosion.explode(bomb);
             });
         }
 
-        
+
         let definitions = new Array();
         definitions.push({
             target: circle,
@@ -170,7 +171,9 @@ export class AppComponent implements AfterViewInit {
         animationSet.play().then(function () {
             console.log("Animation finished");
         }).then(() => {
-            this.layout.removeChild(bomb);
+            if (app.android)
+                this.layout.removeChild(bomb);
+
             this.layout.removeChild(hole);
             this.layout.removeChild(circle);
         });
