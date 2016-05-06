@@ -3,3 +3,6 @@ platforms
 hooks
 *.js
 *.map
+*.keystore
+*.log
+*.apk

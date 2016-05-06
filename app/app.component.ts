@@ -1,6 +1,6 @@
 let sound = require('nativescript-sound');
 import {Color} from 'color';
-import {Component, AfterViewInit, ViewChild, ElementRef} from "angular2/core";
+import {Component, AfterViewInit, ViewChild, ElementRef} from "@angular/core";
 import {Image} from "ui/image";
 import {Label} from "ui/label";
 import {AbsoluteLayout} from 'ui/layouts/absolute-layout';
@@ -18,7 +18,7 @@ interface IRings {
 @Component({
     selector: "my-app",
     template: `
-    <ActionBar title="Windchimes">
+    <ActionBar title="Wind Chimes">
     </ActionBar>
     <AbsoluteLayout #windchimes width="100%" height="100%" (tap)="play($event)" (touch)="touch($event)">
         <!--<GridLayout rows="auto, auto, auto" columns="auto, *, auto, *">
