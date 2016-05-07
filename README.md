@@ -1,6 +1,6 @@
 # NativeScript Windchimes Sample
 
-This repo contains a NativeScript-built app for creating windchimes with Angular 2. The app was inspired by [Tero Parviainen’s talk at ng-conf 2016](https://www.youtube.com/watch?v=vsl5O4ps7LE), and the initial version of this application was built in three hours to show just how easy it is to take an Angular-2-built web app and run it on iOS and Android using NativeScript.
+This repo contains a NativeScript-built app for creating windchimes with Angular 2. The app was inspired by [Tero Parviainen’s talk at ng-conf 2016](https://www.youtube.com/watch?v=vsl5O4ps7LE), and the initial version of this application was built in three hours—all to show how easy it is to take an Angular-2-built web app and run it on iOS and Android using NativeScript.
 
 ![](http://i.imgur.com/c453yP3.gif)
 
