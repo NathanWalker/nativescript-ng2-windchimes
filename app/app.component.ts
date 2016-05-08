@@ -80,13 +80,10 @@ export class AppComponent implements AfterViewInit {
     ];
 
     public touch(e: TouchGestureEventData) {
-        console.log(`touch`);
-        console.log(e);
         if (e && e.action === 'down') {
             this.xCoord = e.getX();
             this.yCoord = e.getY();
             this.playChime();
-            console.log(`x: ${this.xCoord} / y: ${this.yCoord}`);
         }
     }
 
@@ -169,7 +166,6 @@ export class AppComponent implements AfterViewInit {
         let animationSet = new animationsModule.Animation(definitions, false);
 
         animationSet.play().then(function () {
-            console.log("Animation finished");
         }).then(() => {
             if (app.android)
                 this.layout.removeChild(bomb);
