@@ -128,7 +128,9 @@ export class AppComponent implements AfterViewInit {
             AbsoluteLayout.setTop(bomb, y + 98);
             AbsoluteLayout.setLeft(bomb, x + 98);
         }
-
+        while (layout.getChildrenCount() > 25) {
+            layout.removeChild(layout.getChildAt(0));
+        }
         this.animateCircle(circle, hole, bomb, ringColor);
     }
 
