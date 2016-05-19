@@ -6,3 +6,4 @@ hooks
 *.keystore
 *.log
 *.apk
+!webpack.config.js
