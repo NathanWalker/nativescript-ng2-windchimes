@@ -6,9 +6,5 @@ hooks
 *.keystore
 *.log
 *.apk
-<<<<<<< HEAD
-!webpack.config.js
-=======
 !webpack.config.js
 !app/tns-java-classes.js
->>>>>>> NathanWalker/master
