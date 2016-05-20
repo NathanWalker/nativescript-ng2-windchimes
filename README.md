@@ -4,8 +4,9 @@ This repo contains a NativeScript-built app for creating windchimes with Angular
 
 ![](http://i.imgur.com/c453yP3.gif)
 
-> Note: The gif doesn’t do the app justice. To see the app with sound either [watch the app on YouTube](https://www.youtube.com/watch?v=DliOcLTvr_A), or download it from Google Play with the link below.
+> Note: The gif doesn’t do the app justice. To see the app with sound either [watch the app on YouTube](https://www.youtube.com/watch?v=DliOcLTvr_A), or download it from the App Store or Google Play with the buttons below.
 
+[![](https://raw.githubusercontent.com/NativeScript/sample-Groceries/master/assets/app-store-icons/ios-app-store.png)](https://itunes.apple.com/us/app/nativescriptangularwindchimes/id1115915100?mt=8)
 [![](https://github.com/NativeScript/sample-Groceries/raw/master/assets/app-store-icons/google-play.png)](https://play.google.com/store/apps/details?id=org.nativescript.nativescriptng2windchimes&hl=en)
 
 ## Development

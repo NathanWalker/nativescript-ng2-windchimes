@@ -11,3 +11,4 @@ hooks
 BUILD_.txt
 *.cer
 *.mobileprovision
+*.apk.zip
