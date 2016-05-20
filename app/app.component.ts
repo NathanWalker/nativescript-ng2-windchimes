@@ -128,7 +128,7 @@ export class AppComponent implements AfterViewInit {
             AbsoluteLayout.setTop(bomb, y + 98);
             AbsoluteLayout.setLeft(bomb, x + 98);
         }
-        while (layout.getChildrenCount() > 25) {
+        while (layout.getChildrenCount() > 30) {
             layout.removeChild(layout.getChildAt(0));
         }
         this.animateCircle(circle, hole, bomb, ringColor);
@@ -149,7 +149,6 @@ export class AppComponent implements AfterViewInit {
                 explosion.explode(bomb);
             });
         }
-
 
         let definitions = new Array();
         definitions.push({
