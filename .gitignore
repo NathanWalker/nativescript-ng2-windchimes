@@ -8,3 +8,6 @@ hooks
 *.apk
 !webpack.config.js
 !app/tns-java-classes.js
+BUILD_.txt
+*.cer
+*.mobileprovision
