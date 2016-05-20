@@ -80,7 +80,6 @@ export class AppComponent implements AfterViewInit {
     ];
 
     public touch(e: TouchGestureEventData) {
-        console.log(`touch`);
         if (e && e.action === 'down') {
             this.xCoord = e.getX();
             this.yCoord = e.getY();
