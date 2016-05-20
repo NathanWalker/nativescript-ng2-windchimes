@@ -81,12 +81,10 @@ export class AppComponent implements AfterViewInit {
 
     public touch(e: TouchGestureEventData) {
         console.log(`touch`);
-        console.log(e);
         if (e && e.action === 'down') {
             this.xCoord = e.getX();
             this.yCoord = e.getY();
             this.playChime();
-            console.log(`x: ${this.xCoord} / y: ${this.yCoord}`);
         }
     }
 
@@ -131,7 +129,9 @@ export class AppComponent implements AfterViewInit {
             AbsoluteLayout.setTop(bomb, y + 98);
             AbsoluteLayout.setLeft(bomb, x + 98);
         }
-
+        while (layout.getChildrenCount() > 25) {
+            layout.removeChild(layout.getChildAt(0));
+        }
         this.animateCircle(circle, hole, bomb, ringColor);
     }
 
@@ -169,7 +169,6 @@ export class AppComponent implements AfterViewInit {
         let animationSet = new animationsModule.Animation(definitions, false);
 
         animationSet.play().then(function () {
-            console.log("Animation finished");
         }).then(() => {
             if (app.android)
                 this.layout.removeChild(bomb);
